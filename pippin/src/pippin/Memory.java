@@ -2,7 +2,7 @@ package pippin;
 
 import java.util.Arrays;
 
-public class Memory {
+public class Memory implements MemoryInterface {
     public static final int DATA_SIZE = 512;
     public static final int CODE_SIZE = 256;
     // this needs more work for the whole Pippin project
@@ -48,5 +48,16 @@ public class Memory {
 
     public void clearData() {
         Arrays.fill(data, 0);       
-    }       
+    }
+
+	public Object getCode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setCode(int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}       
 }
