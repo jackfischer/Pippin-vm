@@ -16,6 +16,6 @@ public class HALT extends Instruction{
 	@Override
 	public int execute(int arg, boolean indirect) throws DataAccessException{
 //	model.running = false;
-		return arg;
+		return getMachine().getAccumulator();
 	}
 }
