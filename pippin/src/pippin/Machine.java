@@ -29,4 +29,20 @@ public class Machine extends Observable {
     public void incrementCounter() {
         cpu.programCounter++;
     }
+
+	public GUIMemoryDecorator getMemory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public States getState() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Instruction[] getiSet() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

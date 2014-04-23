@@ -198,4 +198,10 @@ public class GUIMemoryDecorator implements MemoryInterface, Observer {
 	public void update(Observable arg0, Object arg1) {
 		recolorCode();
 	}
+
+	@Override
+	public void setCode(int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}
 }
