@@ -2,7 +2,14 @@ package pippin;
 
 import java.util.Observable;
 
+import javax.swing.JFrame;
+
 public class Machine extends Observable {
+	private States state;
+	private boolean halted = false;
+	private boolean autoStepping = false;
+	private JFrame frame;
+	
     class CPU {
         private int accumulator;
         private int programCounter;
