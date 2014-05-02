@@ -51,5 +51,17 @@ public class Machine extends Observable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	public void setAutoStepping(boolean auto){
+		autoStepping = auto;
+	}
+	
+	public boolean isAutoStepping(){
+		return autoStepping;
+	}
+	
+	public void halt(){
+		halted = true;
+		state = States.PROGRAM_HALTED;
+	}
 }
