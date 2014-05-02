@@ -15,7 +15,8 @@ public class Machine extends Observable {
 
 	private CPU cpu = new CPU();
 	private Instruction[] iSet;
-	private MemoryInterface memory;
+	//changed by jack from "memory"
+	private Memory memory;
 	private States state;
 	private boolean halted = false;
 	private boolean autoStepping = false;
@@ -57,7 +58,7 @@ public class Machine extends Observable {
 		return state;
 	}
 
-	public void setMemory(MemoryInterface memory) {
+	public void setMemory(Memory memory) { //used to ask for a MemoryInterface memory
 		this.memory = memory;
 	}
 
@@ -78,7 +79,7 @@ public class Machine extends Observable {
 		memory = new GUIMemoryDecorator(this, memory); 
 		iSet[0] = new NOP(this, memory); 
 		iSet[1] = new LOD(this, memory); 
-		iSet[2] = new LODI(this, memory); 
+		iSet[2] = new LODI(this, memory);
 		iSet[3] = new STO(this, memory); 
 		iSet[4] = new ADD(this, memory); 
 		iSet[5] = new SUB(this, memory); 

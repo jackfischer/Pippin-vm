@@ -8,7 +8,7 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class GUIMemoryDecorator implements MemoryInterface, Observer {
+public class GUIMemoryDecorator extends Memory implements Observer { //used to implement MemoryInterface & Observer instead
 	public static final Color HIGHLIGHT_COLOR = Color.YELLOW;
 
 	private DataGUI[] dataComponents = new DataGUI[MemoryInterface.DATA_SIZE];
