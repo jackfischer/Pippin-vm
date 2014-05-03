@@ -5,7 +5,7 @@ package pippin;
  *
  */
 public class CMPZ extends Instruction{
-	public CMPZ (Machine machine, Memory memory){
+	public CMPZ (Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	
@@ -18,7 +18,7 @@ public class CMPZ extends Instruction{
 	@Override
 	public int execute(int arg, boolean indirect) throws DataAccessException {
 		int retVal = 0;
-		if (getMemory().getData(arg) == 0){
+		if (getMemoryInterface().getData(arg) == 0){
 			retVal = 1;
 		}
 		getMachine().incrementCounter();
