@@ -2,11 +2,11 @@ package pippin;
 
 abstract public class Instruction { 
     private Machine machine;
-    private Memory memory;
+    private MemoryInterface memoryInterface;
 
-    public Instruction(Machine machine, Memory memory) {
+    public Instruction(Machine machine, MemoryInterface memoryInterface) {
         this.machine = machine;
-        this.memory = memory;
+        this.memoryInterface = memoryInterface;
     }
 
     /** 
@@ -26,7 +26,7 @@ abstract public class Instruction {
      * @param arg the argument passed to the instruction
      * @param indirect indicates if the addressing mode is indirect
      * @return returns the new value of the accumulator in the CPU
-     * @throws DataAccessException if access to the data in Memory throws an 
+     * @throws DataAccessException if access to the data in MemoryInterface throws an 
      * exception
      */
     public abstract int execute(int arg, boolean indirect) 
@@ -41,10 +41,10 @@ abstract public class Instruction {
     }
 
     /**
-     * Getter method for memory
-     * @return a reference to the memory field 
+     * Getter method for MemoryInterface
+     * @return a reference to the MemoryInterface field 
      */
-    public Memory getMemory() {
-        return memory;
-    }   
+    public MemoryInterface getMemoryInterface() {
+        return memoryInterface;
+    }
 } 
