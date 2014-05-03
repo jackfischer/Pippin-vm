@@ -4,7 +4,7 @@ package pippin;
  * @author Sam
  */
 public class LOD extends Instruction{
-	public LOD(Machine machine, Memory memory){
+	public LOD(Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	
@@ -18,10 +18,10 @@ public class LOD extends Instruction{
 	public int execute(int arg, boolean indirect) throws DataAccessException{
 		int retVal;
 		if(indirect){
-			retVal = getMemory().getData(getMemory().getData(arg));
+			retVal = getMemoryInterface().getData(getMemoryInterface().getData(arg));
 		}
 		else{
-			retVal = getMemory().getData(arg);
+			retVal = getMemoryInterface().getData(arg);
 		}
 		getMachine().incrementCounter();
 		return retVal;
