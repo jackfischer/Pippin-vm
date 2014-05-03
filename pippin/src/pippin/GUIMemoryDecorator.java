@@ -1,4 +1,4 @@
-package pippin;
+package personal_pippin;
 
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -8,25 +8,27 @@ import java.util.Observer;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class GUIMemoryDecorator extends Memory implements Observer { //used to implement MemoryInterface & Observer instead
-	public static final Color HIGHLIGHT_COLOR = Color.YELLOW;
+public class GUIMemoryDecorator implements MemoryInterface, Observer {
+
+    public static final Color HIGHLIGHT_COLOR = Color.YELLOW;
 
 	private DataGUI[] dataComponents = new DataGUI[MemoryInterface.DATA_SIZE];
 	private CodeGUI[] codeComponents = new CodeGUI[MemoryInterface.CODE_SIZE];
 	private Machine machine;
 	private MemoryInterface memory;
+	//private Memory memory;
 	private int currentCodeHighlight = 0;
 	private int currentDataHighlight = 0;
 	private Rectangle dataHighlight;
 	private Rectangle codeHighlight;	
 	
-	public GUIMemoryDecorator (Machine m, MemoryInterface mem) {
+	public GUIMemoryDecorator (Machine m, MemoryInterface mem) { // used to be interface
 		machine = m;
 		memory = mem;
-		for(int i = 0; i < MemoryInterface.CODE_SIZE; i++) {
+		for(int i = 0; i < MemoryInterface.CODE_SIZE; i++) { //used to be interface
 			codeComponents[i] = new CodeGUI(i);
 		}
-		for(int i = 0; i < MemoryInterface.DATA_SIZE; i++) {
+		for(int i = 0; i < MemoryInterface.DATA_SIZE; i++) { // used to be interface
 			dataComponents[i] = new DataGUI(i);
 		}
 		machine.addObserver(this);
@@ -73,11 +75,11 @@ public class GUIMemoryDecorator extends Memory implements Observer { //used to i
 
 	public void clearCode() {
 		memory.clearCode();
-		for(int i = 0; i < MemoryInterface.CODE_SIZE; i++) {
+		for(int i = 0; i < MemoryInterface.CODE_SIZE; i++) { // used to be interface
 			codeComponents[i].rowInstr.setText("");
 			codeComponents[i].rowHex.setText("");
 		}
-		for(int i = 0; i < MemoryInterface.DATA_SIZE; i++) {
+		for(int i = 0; i < MemoryInterface.DATA_SIZE; i++) { // used to be interface
 			dataComponents[i].rowValue.setText("");
 			dataComponents[i].rowHex.setText("");
 		}
@@ -182,10 +184,11 @@ public class GUIMemoryDecorator extends Memory implements Observer { //used to i
 		}
 	}
 
+	// used to override
 	@Override
 	public void clearData() {
 		memory.clearData();
-		for(int i = 0; i < MemoryInterface.DATA_SIZE; i++) {
+		for(int i = 0; i < Memory.DATA_SIZE; i++) { // used to be interface
 			dataComponents[i].rowValue.setText("");
 			dataComponents[i].rowHex.setText("");
 		}
@@ -197,11 +200,5 @@ public class GUIMemoryDecorator extends Memory implements Observer { //used to i
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		recolorCode();
-	}
-
-	@Override
-	public void setCode(int i, int j) {
-		// TODO Auto-generated method stub
-		
 	}
 }
