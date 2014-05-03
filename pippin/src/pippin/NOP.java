@@ -4,7 +4,7 @@ package pippin;
  * @author Sam
  */
 public class NOP extends Instruction{
-	public NOP(Machine machine, Memory memory){
+	public NOP(Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	
