@@ -7,7 +7,7 @@ package pippin;
  */
 public class SUBI extends Instruction {
 
-    public SUBI(Machine machine, Memory memory) {
+    public SUBI(Machine machine, MemoryInterface memory) {
         super(machine, memory);
     }
     
@@ -23,4 +23,3 @@ public class SUBI extends Instruction {
         return retVal; 
     }
 }
-
