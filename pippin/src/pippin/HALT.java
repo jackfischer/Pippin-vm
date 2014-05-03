@@ -5,7 +5,7 @@ package pippin;
  *
  */
 public class HALT extends Instruction{
-	public HALT(Machine machine, Memory memory){
+	public HALT(Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	/**
