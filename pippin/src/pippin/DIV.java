@@ -5,7 +5,7 @@ package pippin;
  *
  */
 public class DIV extends Instruction {
-	public DIV (Machine machine, Memory memory){
+	public DIV (Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	
@@ -20,20 +20,20 @@ public class DIV extends Instruction {
 		int retVal = getMachine().getAccumulator();
 		
 		if(indirect) {
-			int arg1 = getMemory().getData(arg);
+			int arg1 = getMemoryInterface().getData(arg);
 			if (getMemory().getData(arg1) == 0){
 				throw new DivideByZeroException("attempt to divide by zero");
 			}
 			else{
-				retVal /= getMemory().getData(arg1);
+				retVal /= getMemoryInterface().getData(arg1);
 			}
 		}
 		else {
-			if (getMemory().getData(arg) ==0){
+			if (getMemoryInterface().getData(arg) ==0){
 				throw new DivideByZeroException("attempt to divide by zero");
 			}
 			else{
-				retVal /= getMemory().getData(arg);
+				retVal /= getMemoryInterface().getData(arg);
 			}
 		}	
 		getMachine().incrementCounter();
