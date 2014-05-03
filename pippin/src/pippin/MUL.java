@@ -5,7 +5,7 @@ package pippin;
  *
  */
 public class MUL extends Instruction{
-	public MUL(Machine machine, Memory memory) {
+	public MUL(Machine machine, MemoryInterface memory) {
         super(machine, memory);
     }
 	
@@ -19,13 +19,12 @@ public class MUL extends Instruction{
             throws DataAccessException {
         int retVal = getMachine().getAccumulator();
         if (indirect) {
-            retVal *= (getMemory().getData(getMemory().getData(arg))); 
+            retVal *= (getMemoryInterface().getData(getMemoryInterface().getData(arg))); 
         }
         else {
-            retVal *= (getMemory().getData(arg)); 
+            retVal *= (getMemoryInterface().getData(arg)); 
         }
         getMachine().incrementCounter();
         return retVal;
     }
 }
-
