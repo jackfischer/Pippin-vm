@@ -6,7 +6,7 @@ package pippin;
  */
 public class MULI extends Instruction{
 	
-	public MULI (Machine machine, Memory memory) {
+	public MULI (Machine machine, MemoryInterface memory) {
 		super(machine, memory);
 	}
 	
@@ -22,5 +22,3 @@ public class MULI extends Instruction{
 		}
 		
 	}
-
-
