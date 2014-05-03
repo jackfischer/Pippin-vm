@@ -6,7 +6,7 @@ package pippin;
  */
 public class SUB extends Instruction {
 
-    public SUB(Machine machine, Memory memory) {
+    public SUB(Machine machine, MemoryInterface memory) {
         super(machine, memory);
     }
     
@@ -20,10 +20,10 @@ public class SUB extends Instruction {
             throws DataAccessException {
         int retVal = getMachine().getAccumulator();
         if (indirect) {
-            retVal -= getMemory().getData(getMemory().getData(arg));            
+            retVal -= getMemoryInterface().getData(getMemoryInterface().getData(arg));            
         }
         else {
-            retVal -= getMemory().getData(arg);         
+            retVal -= getMemoryInterface().getData(arg);         
         }
         getMachine().incrementCounter();
         return retVal;
