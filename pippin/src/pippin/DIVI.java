@@ -6,7 +6,7 @@ package pippin;
  */
 public class DIVI extends Instruction {
 
-    public DIVI(Machine machine, Memory memory) {
+    public DIVI(Machine machine, MemoryInterface memory) {
         super(machine, memory);
     }
     
