@@ -4,7 +4,7 @@ package pippin;
  * @author Sam
  */
 public class STO extends Instruction{
-	public STO(Machine machine, Memory memory){
+	public STO(Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	
@@ -18,10 +18,10 @@ public class STO extends Instruction{
 	public int execute(int arg, boolean indirect) throws DataAccessException{
 		int retVal = getMachine().getAccumulator();
 		if(indirect){
-			getMemory().setData(retVal, getMemory().getData(arg));
+			getMemoryInterface().setData(retVal, getMemoryInterface().getData(arg));
 		}
 		else{
-			getMemory().setData(retVal, arg);
+			getMemoryInterface().setData(retVal, arg);
 		}
 		getMachine().incrementCounter();
 		return retVal;
