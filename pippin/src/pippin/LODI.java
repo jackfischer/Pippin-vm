@@ -4,7 +4,7 @@ package pippin;
  * @author Sam
  */
 public class LODI extends Instruction{
-	public LODI(Machine machine, Memory memory){
+	public LODI(Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	
