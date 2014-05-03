@@ -4,7 +4,7 @@ package pippin;
  * @author Sam
  */
 public class JMPZ extends Instruction{
-	public JMPZ(Machine machine, Memory memory){
+	public JMPZ(Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	/**
@@ -21,7 +21,7 @@ public class JMPZ extends Instruction{
 		int retVal = getMachine().getAccumulator();
 		if(indirect){
 			if(retVal==0){
-				getMachine().setProgramCounter(getMemory().getData(arg));
+				getMachine().setProgramCounter(getMemoryInterface().getData(arg));
 			}
 			else{
 				getMachine().incrementCounter();
