@@ -5,7 +5,7 @@ package pippin;
  *
  */
 public class CMPL extends Instruction{
-	public CMPL (Machine machine, Memory memory){
+	public CMPL (Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	/**
@@ -17,7 +17,7 @@ public class CMPL extends Instruction{
 	@Override
 	public int execute(int arg, boolean indirect) throws DataAccessException {
 		int retVal = 0;
-		if (getMemory().getData(arg) < 0){
+		if (getMemoryInterface().getData(arg) < 0){
 			retVal = 1;
 		}
 		getMachine().incrementCounter();
