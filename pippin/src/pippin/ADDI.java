@@ -6,7 +6,7 @@ package pippin;
  */
 public class ADDI extends Instruction {
 
-    public ADDI(Machine machine, Memory memory) {
+    public ADDI(Machine machine, MemoryInterface memory) {
         super(machine, memory);
     }
     
