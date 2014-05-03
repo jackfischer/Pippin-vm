@@ -4,7 +4,7 @@ package pippin;
  * @author Jack
  */
 public class NOT extends Instruction{
-	public NOT (Machine machine, Memory memory){
+	public NOT (Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	
