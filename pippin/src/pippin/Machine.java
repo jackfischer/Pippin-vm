@@ -8,15 +8,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 public class Machine extends Observable {
-	class CPU {
+    class CPU {
 		private int accumulator;
 		private int programCounter;
 	}
 
 	private CPU cpu = new CPU();
 	private Instruction[] iSet;
-	//changed by jack from "memory"
-	private Memory memory;
+	private MemoryInterface memory;
 	private States state;
 	private boolean halted = false;
 	private boolean autoStepping = false;
@@ -58,7 +57,7 @@ public class Machine extends Observable {
 		return state;
 	}
 
-	public void setMemory(Memory memory) { //used to ask for a MemoryInterface memory
+	public void setMemory(Memory memory) {
 		this.memory = memory;
 	}
 
@@ -79,7 +78,7 @@ public class Machine extends Observable {
 		memory = new GUIMemoryDecorator(this, memory); 
 		iSet[0] = new NOP(this, memory); 
 		iSet[1] = new LOD(this, memory); 
-		iSet[2] = new LODI(this, memory);
+		iSet[2] = new LODI(this, memory); 
 		iSet[3] = new STO(this, memory); 
 		iSet[4] = new ADD(this, memory); 
 		iSet[5] = new SUB(this, memory); 
@@ -120,7 +119,7 @@ public class Machine extends Observable {
 					// setAccumulator instead of m.setAccumulator 
 					// ALSO remove the two println statements 
 					// you have to end with the following 2 lines, which tell the GUI 
-					// components to run the update methodÑthis is the Observer Pattern 
+					// components to run the update methodâ€”this is the Observer Pattern 
 					setChanged(); 
 					notifyObservers(); 
 				} 
@@ -136,15 +135,18 @@ public class Machine extends Observable {
 				JOptionPane.showMessageDialog(null, "There was a data access exception executing " + instr,
 						"Error on code line " + this.getProgramCounter(),
 						JOptionPane.WARNING_MESSAGE);
+				halt(); // new
 
 			} catch (NullPointerException e){
 				JOptionPane.showMessageDialog(null, "There was a null pointer exception executing " + instr,
 						"Error on code line " + this.getProgramCounter(),
 						JOptionPane.WARNING_MESSAGE);
+				halt(); // new
 			} catch (DivideByZeroException e){
 				JOptionPane.showMessageDialog(null, "There was a divide by zero exception executing " + instr,
 						"Error on code line " + this.getProgramCounter(),
 						JOptionPane.WARNING_MESSAGE);
+				halt(); // new
 			}
 			// THREE MORE HANDLERS for DataAccessException, NullPointerException 
 			// and DivideByZeroException 
@@ -155,12 +157,13 @@ public class Machine extends Observable {
 	public static void test1() throws DataAccessException, FileNotFoundException, CodeAccessException{
 		Machine m = new Machine();
 		MemoryInterface data = m.getMemory();
-		LoaderInterface loader = new Loader();
-		for(int i = 0; i < MemoryInterface.CODE_SIZE; i++) {
+		LoaderInterface loader = new Loader(); // Lander rid the interfaces
+		//Loader loader = new Loader();
+		for(int i = 0; i < Memory.CODE_SIZE; i++) { // used to be interface
 			data.setCode(i, -1); // an invalid code
 		}   
 
-		System.out.println(loader.load((Memory) data, new File("factorial8.pexe")));
+		System.out.println(loader.load(data, new File("factorial8.pexe")));
 		long lng = 0;
 		Instruction instr = m.iSet[0x1F];
 		do {
@@ -194,7 +197,8 @@ public class Machine extends Observable {
 		m.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		m.frame.setVisible(true); 
 
-		LoaderInterface loader = new Loader(); 
+		LoaderInterface loader = new Loader(); // removed interface
+		//Loader loader = new Loader();
 		m.memory.clearCode(); 
 		m.memory.clearData(); 
 		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pexe"))); 
@@ -239,9 +243,10 @@ public class Machine extends Observable {
 		m.frame.setVisible(true); 
 
 		LoaderInterface loader = new Loader(); 
+		//Loader loader = new Loader();
 		m.memory.clearCode(); 
 		m.memory.clearData();  
-		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pexe"))); 
+		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pasm"))); 
 
 		do { 
 			try { 
