@@ -3,7 +3,9 @@ package pippin;
 import java.awt.BorderLayout;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Observable;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -114,16 +116,9 @@ public class Machine extends Observable {
 					int opcode = (int)op/2;
 					instr = iSet[opcode];
 					setAccumulator(instr.execute(arg, indirect));
-					// copy the same code that appears after if (lng = 0) in test2 
-					// EXCEPT: use iSet[opCode] instead of m.iSet[opCode] and use 
-					// setAccumulator instead of m.setAccumulator 
-					// ALSO remove the two println statements 
-					// you have to end with the following 2 lines, which tell the GUI 
-					// components to run the update method—this is the Observer Pattern 
 					setChanged(); 
 					notifyObservers(); 
 				} 
-				// now for the exception handlers 
 			} catch (CodeAccessException e) { 
 				JOptionPane.showMessageDialog(null, 
 						"There was a code access exception executing " + instr, 
@@ -148,9 +143,6 @@ public class Machine extends Observable {
 						JOptionPane.WARNING_MESSAGE);
 				halt(); // new
 			}
-			// THREE MORE HANDLERS for DataAccessException, NullPointerException 
-			// and DivideByZeroException 
-			// You only need to change the message to state what exception occured 
 		} 
 	} 
 
@@ -162,7 +154,6 @@ public class Machine extends Observable {
 		for(int i = 0; i < Memory.CODE_SIZE; i++) { // used to be interface
 			data.setCode(i, -1); // an invalid code
 		}   
-
 		System.out.println(loader.load(data, new File("factorial8.pexe")));
 		long lng = 0;
 		Instruction instr = m.iSet[0x1F];
@@ -224,7 +215,8 @@ public class Machine extends Observable {
 					m.setAccumulator(instr.execute(arg, indirect)); 
 					System.out.println(instr.toString() + " " + arg); 
 					System.out.println("Memory: 0 => " + m.memory.getData(0) 
-							+ ", 1 => " + m.memory.getData(1)); 
+							+ ", 32 => " + m.memory.getData(32)); 
+					System.out.println(Arrays.toString(Arrays.copyOf(((GUIMemoryDecorator)m.memory).getData(), 33)));
 			} 
 		} while(!m.halted); 
 	}
@@ -246,15 +238,15 @@ public class Machine extends Observable {
 		//Loader loader = new Loader();
 		m.memory.clearCode(); 
 		m.memory.clearData();  
-		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pasm"))); 
+		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pexe"))); 
 
 		do { 
 			try { 
 				Thread.sleep(100); 
 			} catch (InterruptedException e) { 
 				e.printStackTrace(); 
-			} 
-			m.step(); 
+			}
+			m.step();
 		} while(!m.halted); 
 	}
 
