@@ -180,7 +180,7 @@ public class Machine extends Observable {
 		JMenuBar bar = new JMenuBar();
 		frame.setJMenuBar(bar);
 		frame.add(new ProcessorViewPanel(this).createProcessorDisplay(), BorderLayout.PAGE_START);
-		frame.add(new ControlPanel(this).createControlDisplay()), BorderLayout.PAGE_END);
+		frame.add(new ControlPanel(this).createControlDisplay(), BorderLayout.PAGE_END);
 		MenuBarBuilder menuBuilder = new MenuBarBuilder(this);
 		menuBuilder = new MenuBarBuilder(this);
 		bar.add(menuBuilder.createMenu1());
