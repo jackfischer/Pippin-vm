@@ -10,7 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-public class MenuBarBuilder implements Observer { // needs update method still..?
+public class MenuBarBuilder implements Observer {
 	private JMenuItem assemble = new JMenuItem("Assemble Source...");
 	private JMenuItem load = new JMenuItem("Load Program...");
 	private JMenuItem exit = new JMenuItem("Exit");
@@ -72,24 +72,16 @@ public class MenuBarBuilder implements Observer { // needs update method still..
 		return menu;
 	}
 
-	public void checkEnabledMenus(){
-		assemble.setEnabled(machine.getState().getAssembleFileActive());
-	}
-
-	public void checkEnabledMenus2(){
+    public void checkEnabledMenus(){
+    	assemble.setEnabled(machine.getState().getAssembleFileActive());
 		load.setEnabled(machine.getState().getAssembleFileActive());
-	}
-
-	public void checkEnabledMenus3(){
 		go.setEnabled(machine.getState().getAssembleFileActive());
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
+		checkEnabledMenus();
 	}
-
 
 
 }
