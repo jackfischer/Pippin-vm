@@ -18,8 +18,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-/**
- * all new imports pdf 4
+
 import pippin.CodeAccessException;
 import pippin.DataAccessException;
 import pippin.DivideByZeroException;
@@ -32,7 +31,7 @@ import pippin.Machine.TimerListener;
 import pippin.AssemblerAdapter;
 import pippin.DirectoryManager;
 import pippin.LoaderAdapter;
- */
+
 
 public class Machine extends Observable {
 	class CPU {
@@ -133,14 +132,14 @@ public class Machine extends Observable {
 		} 
 	}
 
-	private class ExitAdapter extends WindowAdapter { 
+	public class ExitAdapter extends WindowAdapter { 
 		@Override 
 		public void windowClosing(WindowEvent arg0) { 
 			exit(); 
 		} 
 	} 
 
-	private class TimerListener implements ActionListener { 
+	public class TimerListener implements ActionListener { 
 		@Override 
 		public void actionPerformed(ActionEvent e) { 
 			if(autoStepping && !halted) { 
@@ -180,12 +179,12 @@ public class Machine extends Observable {
 		frame.add(centerPanel, BorderLayout.CENTER);
 		JMenuBar bar = new JMenuBar();
 		frame.setJMenuBar(bar);
-		//frame.add(new ProcessorViewPanel(this).createProcessorDisplay(), BorderLayout.PAGE_START);
-		//frame.add(new ControlPanel(this).createControlDisplay()), BorderLayout.PAGE_END);
-		//MenuBarBuilder menuBuilder = new MenuBarBuilder(this);
-		//menuBuilder = new MenuBarBuilder(this);
-		//bar.add(menuBuilder.createMenu1());
-		//bar.add(menuBuilder.createMenu2());
+		frame.add(new ProcessorViewPanel(this).createProcessorDisplay(), BorderLayout.PAGE_START);
+		frame.add(new ControlPanel(this).createControlDisplay()), BorderLayout.PAGE_END);
+		MenuBarBuilder menuBuilder = new MenuBarBuilder(this);
+		menuBuilder = new MenuBarBuilder(this);
+		bar.add(menuBuilder.createMenu1());
+		bar.add(menuBuilder.createMenu2());
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new ExitAdapter());
 		new javax.swing.Timer(period,  new TimerListener().start());
@@ -391,5 +390,9 @@ public class Machine extends Observable {
 	public void reload() {
 		// TODO Auto-generated method stub
 
+	}
+	public void setRunnable() {
+		// TODO Auto-generated method stub
+		
 	}
 }
