@@ -21,7 +21,7 @@ public class DIV extends Instruction {
 		
 		if(indirect) {
 			int arg1 = getMemoryInterface().getData(arg);
-			if (getMemory().getData(arg1) == 0){
+			if (getMemoryInterface().getData(arg1) == 0){
 				throw new DivideByZeroException("attempt to divide by zero");
 			}
 			else{
