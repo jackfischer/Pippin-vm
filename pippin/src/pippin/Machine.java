@@ -1,11 +1,38 @@
 package pippin;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Observable;
+
 import javax.swing.JFrame;
+import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+/**
+ * all new imports pdf 4
+import pippin.CodeAccessException;
+import pippin.DataAccessException;
+import pippin.DivideByZeroException;
+import pippin.Instruction;
+import pippin.CodeViewPanel;
+import pippin.DataViewPanel;
+import pippin.States;
+import pippin.Machine.ExitAdapter;
+import pippin.Machine.TimerListener;
+import pippin.AssemblerAdapter;
+import pippin.DirectoryManager;
+import pippin.LoaderAdapter;
+*/
 
 public class Machine extends Observable {
     class CPU {
@@ -20,11 +47,17 @@ public class Machine extends Observable {
 	private boolean halted = false;
 	private boolean autoStepping = false;
 	private JFrame frame;
-
+	/** pdf 4
+	private DirectoryManager directoryManager = new DirectoryManager(this);
+	private AssemblerAdapter assembler = new AssemblerAdapter(this);
+	private LoaderAdapter loader = new LoaderAdapter(this);
+	*/
+	
 	public Machine() {
 		memory = new Memory();
 		iSet = new Instruction[32];
 		setGUIMemory();
+		//createAndShowGUI(); pdf 4
 	}
 	public int getAccumulator() {
 		return cpu.accumulator;
@@ -73,7 +106,96 @@ public class Machine extends Observable {
 		halted = true;
 		state = States.PROGRAM_HALTED;
 	}
+	
+	/**
+	 *  all new methods as of pdf 4 below until SetGUIMemory
+	 **
+		public void callForUpdates() { 
+			setChanged(); 
+			notifyObservers(); 
+		} 
 
+		public void callForUpdates(States newState) { 
+			state = newState; 
+			state.enter(); 
+			setChanged(); 
+			notifyObservers(); 
+		}
+
+		public void exit() { // method executed when user exits the program 
+			int decision = JOptionPane.showConfirmDialog( 
+					frame, 
+					"Do you really wish to exit?", 
+					"Confirmation", 
+					JOptionPane.YES_NO_OPTION); 
+			if (decision == JOptionPane.YES_OPTION) { 
+				directoryManager.closePropertiesFile(); //requires pdf 3 to be done
+				System.exit(0); 
+			} 
+		}
+
+		private class ExitAdapter extends WindowAdapter { 
+			@Override 
+			public void windowClosing(WindowEvent arg0) { 
+				exit(); 
+			} 
+		} 
+
+		private class TimerListener implements ActionListener { 
+			@Override 
+			public void actionPerformed(ActionEvent e) { 
+				if(autoStepping && !halted) { 
+					step(); 
+				} 
+			} 
+		}
+
+		public void assembleFile() { 
+			assembler.assemble(); 
+		} 
+
+		public void loadFile() { 
+			loader.load(); 
+			this.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING); 
+		} 
+
+		public void execute() { 
+			this.setAutoStepping(false); 
+			while(!halted) { 
+				step(); 
+			} 
+			this.callForUpdates(States.PROGRAM_HALTED); 
+		}
+
+
+		private void createAndShowGUI(){
+			frame = new JFrame("Pippin simulator");
+			Container content = frame.getContentPane();
+			content.setLayout(new BorderLayout(1,1));
+			content.setBackground(Color.BLACK);
+			frame.setSize(800,600);
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout(new GridLayout(1,0));
+			centerPanel.add(new CodeViewPanel(this).createCodeDisplay(), BorderLayout.WEST);
+			centerPanel.add(new DataViewPanel(this).createDataDisplay(), BorderLayout.EAST);
+			frame.add(centerPanel, BorderLayout.CENTER);
+			JMenuBar bar = new JMenuBar();
+			frame.setJMenuBar(bar);
+			//frame.add(new ProcessorViewPanel(this).createProcessorDisplay(), BorderLayout.PAGE_START);
+			//frame.add(new ControlPanel(this).createControlDisplay()), BorderLayout.PAGE_END);
+			//MenuBarBuilder menuBuilder = new MenuBarBuilder(this);
+			//menuBuilder = new MenuBarBuilder(this);
+			//bar.add(menuBuilder.createMenu1());
+			//bar.add(menuBuilder.createMenu2());
+			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			frame.addWindowListener(new ExitAdapter());
+			new javax.swing.Timer(period,  new TimerListener().start());
+			callForUpdates(States.NOTHING_LOADED);
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
+		}
+	*/
+	
 	public void setGUIMemory() { 
 		memory = new GUIMemoryDecorator(this, memory); 
 		iSet[0] = new NOP(this, memory); 
@@ -98,7 +220,15 @@ public class Machine extends Observable {
 		iSet[0x1F] = new HALT(this, memory); 
 	}
 
-	public void step() { 
+	
+	public void step() { // new as of pdf 4
+		if(!halted) { 
+			step1(); 
+			//callForUpdates(); 
+		} 
+	} 
+	
+	private void step1() { //used to be public void step()
 		if(!halted) { 
 			long lng; 
 			Instruction instr = iSet[0x1F]; 
@@ -114,16 +244,7 @@ public class Machine extends Observable {
 					int opcode = (int)op/2;
 					instr = iSet[opcode];
 					setAccumulator(instr.execute(arg, indirect));
-					// copy the same code that appears after if (lng = 0) in test2 
-					// EXCEPT: use iSet[opCode] instead of m.iSet[opCode] and use 
-					// setAccumulator instead of m.setAccumulator 
-					// ALSO remove the two println statements 
-					// you have to end with the following 2 lines, which tell the GUI 
-					// components to run the update method—this is the Observer Pattern 
-					setChanged(); 
-					notifyObservers(); 
 				} 
-				// now for the exception handlers 
 			} catch (CodeAccessException e) { 
 				JOptionPane.showMessageDialog(null, 
 						"There was a code access exception executing " + instr, 
@@ -135,22 +256,16 @@ public class Machine extends Observable {
 				JOptionPane.showMessageDialog(null, "There was a data access exception executing " + instr,
 						"Error on code line " + this.getProgramCounter(),
 						JOptionPane.WARNING_MESSAGE);
-				halt(); // new
 
 			} catch (NullPointerException e){
 				JOptionPane.showMessageDialog(null, "There was a null pointer exception executing " + instr,
 						"Error on code line " + this.getProgramCounter(),
 						JOptionPane.WARNING_MESSAGE);
-				halt(); // new
 			} catch (DivideByZeroException e){
 				JOptionPane.showMessageDialog(null, "There was a divide by zero exception executing " + instr,
 						"Error on code line " + this.getProgramCounter(),
 						JOptionPane.WARNING_MESSAGE);
-				halt(); // new
 			}
-			// THREE MORE HANDLERS for DataAccessException, NullPointerException 
-			// and DivideByZeroException 
-			// You only need to change the message to state what exception occured 
 		} 
 	} 
 
@@ -162,7 +277,6 @@ public class Machine extends Observable {
 		for(int i = 0; i < Memory.CODE_SIZE; i++) { // used to be interface
 			data.setCode(i, -1); // an invalid code
 		}   
-
 		System.out.println(loader.load(data, new File("factorial8.pexe")));
 		long lng = 0;
 		Instruction instr = m.iSet[0x1F];
@@ -224,7 +338,8 @@ public class Machine extends Observable {
 					m.setAccumulator(instr.execute(arg, indirect)); 
 					System.out.println(instr.toString() + " " + arg); 
 					System.out.println("Memory: 0 => " + m.memory.getData(0) 
-							+ ", 1 => " + m.memory.getData(1)); 
+							+ ", 32 => " + m.memory.getData(32)); 
+					System.out.println(Arrays.toString(Arrays.copyOf(((GUIMemoryDecorator)m.memory).getData(), 33)));
 			} 
 		} while(!m.halted); 
 	}
@@ -246,15 +361,15 @@ public class Machine extends Observable {
 		//Loader loader = new Loader();
 		m.memory.clearCode(); 
 		m.memory.clearData();  
-		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pasm"))); 
+		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pexe"))); 
 
 		do { 
 			try { 
 				Thread.sleep(100); 
 			} catch (InterruptedException e) { 
 				e.printStackTrace(); 
-			} 
-			m.step(); 
+			}
+			m.step();
 		} while(!m.halted); 
 	}
 
