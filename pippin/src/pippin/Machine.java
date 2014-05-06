@@ -377,7 +377,7 @@ public class Machine extends Observable {
 
 	// HERE ARE METHODS REQUIRED BY OTHER CLASSES THAT HAVE NOT YET BEEN COMPLETED
 	
-	public Object getFrame() {
+	public JFrame getFrame() {
 		// TODO Auto-generated method stub
 		// TODO ! This needs to be looked at!!!
 		return null;

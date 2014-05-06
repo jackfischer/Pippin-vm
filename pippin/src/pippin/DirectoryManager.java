@@ -74,20 +74,20 @@ public class DirectoryManager {
 			out.close();
 		}
 		catch (Exception e){
-			JOptionPane.showMessageDialog((Component) machine.getFrame(),
+			JOptionPane.showMessageDialog(machine.getFrame(),
 					"Problems when storing Source Directory in Property File", "Warning",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	public String getPasm() {
+	public String getSourceDir() {
 		return pasm;
 	}
 
-	public String getPexe() {
+	public String getExecutableDir() {
 		return pexe;
 	}
 
-	public String getDf() {
+	public String getEclipseDir() {
 		return edir;
 	}
 
