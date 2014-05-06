@@ -295,7 +295,7 @@ public class Machine extends Observable {
 					m.setAccumulator(instr.execute(arg, indirect));
 					System.out.println(instr.toString() + " " + arg);
 					System.out.println("Memory: 0 => " + data.getData(0) 
-							+ ", 1 => " + data.getData(1));
+							+ ", 32 => " + data.getData(32));
 			}
 		} while(!instr.toString().equals("HALT"));
 
