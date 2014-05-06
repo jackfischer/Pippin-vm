@@ -336,9 +336,8 @@ public class Machine extends Observable {
 					instr = m.iSet[opcode]; 
 					m.setAccumulator(instr.execute(arg, indirect)); 
 					System.out.println(instr.toString() + " " + arg); 
-					System.out.println("Memory: 0 => " + m.memory.getData(0) 
-							+ ", 32 => " + m.memory.getData(32)); 
-					System.out.println(Arrays.toString(Arrays.copyOf(((GUIMemoryDecorator)m.memory).getData(), 33)));
+					System.out.println("Memory: 0 => " + m.memory.getData(0)
+                            + ", 1 => " + m.memory.getData(1));
 			} 
 		} while(!m.halted); 
 	}
