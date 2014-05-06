@@ -11,8 +11,9 @@ import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-
-//STILL NEED TO UNCOMMENT CREATEANDSHOWGUI IN MACHINE 
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class ControlPanel implements Observer {
 	
@@ -69,9 +70,25 @@ public class ControlPanel implements Observer {
 			machine.step();
 		}
 	}
+	
+	/* private class SlideListener implements ChangeListener {
+		@Override
+		public void stateChanged(ChangeEvent arg0) {
+			machine.setPeriod(slider.getValue());
+		}
+	}
+	*/
 
 	public JComponent createControlDisplay() {
 		JPanel retVal = new JPanel(new GridLayout(1, 0));
+		final JSlider slider = new JSlider(5,1000);
+
+		retVal.add(slider);
+		slider.addChangeListener((new ChangeListener(){
+			public void stateChanged(ChangeEvent arg0) { 
+				machine.assembleFile(); 
+			} 
+		})); 
 
 		stepButton.setBackground(Color.WHITE);
 		retVal.add(stepButton);
@@ -84,6 +101,7 @@ public class ControlPanel implements Observer {
 		runButton.setBackground(Color.WHITE);
 		retVal.add(runButton);
 		runButton.addActionListener(new RunPauseListener());
+
 		return retVal;
 		
 		

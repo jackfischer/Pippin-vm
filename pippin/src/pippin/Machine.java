@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import javax.swing.Timer;
 
 import pippin.CodeAccessException;
 import pippin.DataAccessException;
@@ -49,6 +49,8 @@ public class Machine extends Observable {
 	private DirectoryManager directoryManager = new DirectoryManager(this);
 	private AssemblerAdapter assembler = new AssemblerAdapter(this);
 	private LoaderAdapter loader = new LoaderAdapter(this);
+	private final int INITIAL_PERIOD = 500;
+	private Timer timer;
 
 	public Machine() {
 		memory = new Memory();
@@ -187,7 +189,9 @@ public class Machine extends Observable {
 		bar.add(menuBuilder.createMenu2());
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new ExitAdapter());
-		new javax.swing.Timer(period,  new TimerListener().start());
+		//new javax.swing.Timer(period,  new TimerListener().start());
+		timer = new Timer(INITIAL_PERIOD, new TimerListener());
+		timer.start();
 		callForUpdates(States.NOTHING_LOADED);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
@@ -377,22 +381,30 @@ public class Machine extends Observable {
 	// HERE ARE METHODS REQUIRED BY OTHER CLASSES THAT HAVE NOT YET BEEN COMPLETED
 	
 	public JFrame getFrame() {
-		// TODO Auto-generated method stub
-		// TODO ! This needs to be looked at!!!
-		return null;
+		return frame;
+		//That's a guess -jack
 	}
 
 	public void clearAll() {
-		// TODO Auto-generated method stub
+		memory.clearCode();
+		memory.clearData();
+		cpu.accumulator = 0;
+		cpu.programCounter = 0;
 
 	}
 
 	public void reload() {
-		// TODO Auto-generated method stub
+		this.clearAll();
+		loader.finalStep();
 
 	}
 	public void setRunnable() {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void setPeriod(int period) {
+		timer.setDelay(period);
+	}
+
 }
