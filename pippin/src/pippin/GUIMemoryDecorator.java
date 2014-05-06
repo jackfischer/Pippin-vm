@@ -1,4 +1,4 @@
-package personal_pippin;
+package pippin;
 
 import java.awt.Color;
 import java.awt.Rectangle;

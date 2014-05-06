@@ -32,10 +32,10 @@ import pippin.Machine.TimerListener;
 import pippin.AssemblerAdapter;
 import pippin.DirectoryManager;
 import pippin.LoaderAdapter;
-*/
+ */
 
 public class Machine extends Observable {
-    class CPU {
+	class CPU {
 		private int accumulator;
 		private int programCounter;
 	}
@@ -47,17 +47,16 @@ public class Machine extends Observable {
 	private boolean halted = false;
 	private boolean autoStepping = false;
 	private JFrame frame;
-	/** pdf 4
 	private DirectoryManager directoryManager = new DirectoryManager(this);
 	private AssemblerAdapter assembler = new AssemblerAdapter(this);
 	private LoaderAdapter loader = new LoaderAdapter(this);
-	*/
-	
+
 	public Machine() {
 		memory = new Memory();
 		iSet = new Instruction[32];
 		setGUIMemory();
-		//createAndShowGUI(); pdf 4
+		createAndShowGUI();
+		callForUpdates(States.NOTHING_LOADED);
 	}
 	public int getAccumulator() {
 		return cpu.accumulator;
@@ -102,100 +101,99 @@ public class Machine extends Observable {
 		autoStepping = val;
 	}
 
+	public DirectoryManager getDirectoryManager(){
+		return directoryManager;
+	}
 	public void halt(){
 		halted = true;
 		state = States.PROGRAM_HALTED;
 	}
-	
-	/**
-	 *  all new methods as of pdf 4 below until SetGUIMemory
-	 **
-		public void callForUpdates() { 
-			setChanged(); 
-			notifyObservers(); 
+
+	public void callForUpdates() { 
+		setChanged(); 
+		notifyObservers(); 
+	} 
+
+	public void callForUpdates(States newState) { 
+		state = newState; 
+		state.enter(); 
+		setChanged(); 
+		notifyObservers(); 
+	}
+
+	public void exit() { // method executed when user exits the program 
+		int decision = JOptionPane.showConfirmDialog( 
+				frame, 
+				"Do you really wish to exit?", 
+				"Confirmation", 
+				JOptionPane.YES_NO_OPTION); 
+		if (decision == JOptionPane.YES_OPTION) { 
+			directoryManager.closePropertiesFile(); //requires pdf 3 to be done
+			System.exit(0); 
 		} 
+	}
 
-		public void callForUpdates(States newState) { 
-			state = newState; 
-			state.enter(); 
-			setChanged(); 
-			notifyObservers(); 
-		}
-
-		public void exit() { // method executed when user exits the program 
-			int decision = JOptionPane.showConfirmDialog( 
-					frame, 
-					"Do you really wish to exit?", 
-					"Confirmation", 
-					JOptionPane.YES_NO_OPTION); 
-			if (decision == JOptionPane.YES_OPTION) { 
-				directoryManager.closePropertiesFile(); //requires pdf 3 to be done
-				System.exit(0); 
-			} 
-		}
-
-		private class ExitAdapter extends WindowAdapter { 
-			@Override 
-			public void windowClosing(WindowEvent arg0) { 
-				exit(); 
-			} 
+	private class ExitAdapter extends WindowAdapter { 
+		@Override 
+		public void windowClosing(WindowEvent arg0) { 
+			exit(); 
 		} 
+	} 
 
-		private class TimerListener implements ActionListener { 
-			@Override 
-			public void actionPerformed(ActionEvent e) { 
-				if(autoStepping && !halted) { 
-					step(); 
-				} 
-			} 
-		}
-
-		public void assembleFile() { 
-			assembler.assemble(); 
-		} 
-
-		public void loadFile() { 
-			loader.load(); 
-			this.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING); 
-		} 
-
-		public void execute() { 
-			this.setAutoStepping(false); 
-			while(!halted) { 
+	private class TimerListener implements ActionListener { 
+		@Override 
+		public void actionPerformed(ActionEvent e) { 
+			if(autoStepping && !halted) { 
 				step(); 
 			} 
-			this.callForUpdates(States.PROGRAM_HALTED); 
-		}
+		} 
+	}
+
+	public void assembleFile() { 
+		assembler.assemble(); 
+	} 
+
+	public void loadFile() { 
+		loader.load(); 
+		this.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING); 
+	} 
+
+	public void execute() { 
+		this.setAutoStepping(false); 
+		while(!halted) { 
+			step(); 
+		} 
+		this.callForUpdates(States.PROGRAM_HALTED); 
+	}
 
 
-		private void createAndShowGUI(){
-			frame = new JFrame("Pippin simulator");
-			Container content = frame.getContentPane();
-			content.setLayout(new BorderLayout(1,1));
-			content.setBackground(Color.BLACK);
-			frame.setSize(800,600);
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout(new GridLayout(1,0));
-			centerPanel.add(new CodeViewPanel(this).createCodeDisplay(), BorderLayout.WEST);
-			centerPanel.add(new DataViewPanel(this).createDataDisplay(), BorderLayout.EAST);
-			frame.add(centerPanel, BorderLayout.CENTER);
-			JMenuBar bar = new JMenuBar();
-			frame.setJMenuBar(bar);
-			//frame.add(new ProcessorViewPanel(this).createProcessorDisplay(), BorderLayout.PAGE_START);
-			//frame.add(new ControlPanel(this).createControlDisplay()), BorderLayout.PAGE_END);
-			//MenuBarBuilder menuBuilder = new MenuBarBuilder(this);
-			//menuBuilder = new MenuBarBuilder(this);
-			//bar.add(menuBuilder.createMenu1());
-			//bar.add(menuBuilder.createMenu2());
-			frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			frame.addWindowListener(new ExitAdapter());
-			new javax.swing.Timer(period,  new TimerListener().start());
-			callForUpdates(States.NOTHING_LOADED);
-			frame.setLocationRelativeTo(null);
-			frame.setVisible(true);
-		}
-	*/
-	
+	private void createAndShowGUI(){
+		frame = new JFrame("Pippin simulator");
+		Container content = frame.getContentPane();
+		content.setLayout(new BorderLayout(1,1));
+		content.setBackground(Color.BLACK);
+		frame.setSize(800,600);
+		JPanel centerPanel = new JPanel();
+		centerPanel.setLayout(new GridLayout(1,0));
+		centerPanel.add(new CodeViewPanel(this).createCodeDisplay(), BorderLayout.WEST);
+		centerPanel.add(new DataViewPanel(this).createDataDisplay(), BorderLayout.EAST);
+		frame.add(centerPanel, BorderLayout.CENTER);
+		JMenuBar bar = new JMenuBar();
+		frame.setJMenuBar(bar);
+		//frame.add(new ProcessorViewPanel(this).createProcessorDisplay(), BorderLayout.PAGE_START);
+		//frame.add(new ControlPanel(this).createControlDisplay()), BorderLayout.PAGE_END);
+		//MenuBarBuilder menuBuilder = new MenuBarBuilder(this);
+		//menuBuilder = new MenuBarBuilder(this);
+		//bar.add(menuBuilder.createMenu1());
+		//bar.add(menuBuilder.createMenu2());
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new ExitAdapter());
+		new javax.swing.Timer(period,  new TimerListener().start());
+		callForUpdates(States.NOTHING_LOADED);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+
 	public void setGUIMemory() { 
 		memory = new GUIMemoryDecorator(this, memory); 
 		iSet[0] = new NOP(this, memory); 
@@ -220,14 +218,14 @@ public class Machine extends Observable {
 		iSet[0x1F] = new HALT(this, memory); 
 	}
 
-	
-	public void step() { // new as of pdf 4
+
+	public void step() {
 		if(!halted) { 
 			step1(); 
-			//callForUpdates(); 
+			callForUpdates(); 
 		} 
 	} 
-	
+
 	private void step1() { //used to be public void step()
 		if(!halted) { 
 			long lng; 
@@ -272,8 +270,7 @@ public class Machine extends Observable {
 	public static void test1() throws DataAccessException, FileNotFoundException, CodeAccessException{
 		Machine m = new Machine();
 		MemoryInterface data = m.getMemory();
-		LoaderInterface loader = new Loader(); // Lander rid the interfaces
-		//Loader loader = new Loader();
+		Loader loader = new Loader();
 		for(int i = 0; i < Memory.CODE_SIZE; i++) { // used to be interface
 			data.setCode(i, -1); // an invalid code
 		}   
@@ -311,8 +308,7 @@ public class Machine extends Observable {
 		m.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		m.frame.setVisible(true); 
 
-		LoaderInterface loader = new Loader(); // removed interface
-		//Loader loader = new Loader();
+		Loader loader = new Loader();
 		m.memory.clearCode(); 
 		m.memory.clearData(); 
 		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pexe"))); 
@@ -357,8 +353,7 @@ public class Machine extends Observable {
 		m.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		m.frame.setVisible(true); 
 
-		LoaderInterface loader = new Loader(); 
-		//Loader loader = new Loader();
+		Loader loader = new Loader();
 		m.memory.clearCode(); 
 		m.memory.clearData();  
 		System.out.println(loader.load(m.memory, new File("factorialIndirect7.pexe"))); 
@@ -377,5 +372,24 @@ public class Machine extends Observable {
 		//test1();
 		//test2();
 		test3();
+	}
+
+
+	// HERE ARE METHODS REQUIRED BY OTHER CLASSES THAT HAVE NOT YET BEEN COMPLETED
+	
+	public Object getFrame() {
+		// TODO Auto-generated method stub
+		// TODO ! This needs to be looked at!!!
+		return null;
+	}
+
+	public void clearAll() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void reload() {
+		// TODO Auto-generated method stub
+
 	}
 }
