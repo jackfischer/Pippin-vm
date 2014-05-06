@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Assembler implements AssemblerInterface{
+public class Assembler{
 
     static Set<String> allowsIndirect = new HashSet<String>(); 
 	static Set<String> noArgument = new HashSet<String>(); 
@@ -212,8 +212,7 @@ public class Assembler implements AssemblerInterface{
 	// Here is a very simple tester. You can change the name of the test file. 
 
 	public static void main(String[] args) { 
-		AssemblerInterface ass = new Assembler(); 
-		//Assembler ass = new Assembler();
+		Assembler ass = new Assembler();
 		String fileName = "factorial8"; // CHANGE AS NEEDED FOR TESTING
 		System.out.println(fileName);
 		System.out.println(ass.assemble(new File(fileName + ".pasm"), 

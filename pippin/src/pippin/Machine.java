@@ -352,8 +352,8 @@ public class Machine extends Observable {
 		m.frame.add(dvp.createDataDisplay(), BorderLayout.LINE_END); 
 		CodeViewPanel cvp = new CodeViewPanel(m); 
 		m.frame.add(cvp.createCodeDisplay(), BorderLayout.CENTER); 
-		//ProcessorViewPanel pvp = new ProcessorViewPanel(m);
-		//m.frame.add(pvp.createProcessorDisplay(), BorderLayout.PAGE_START);
+		ProcessorViewPanel pvp = new ProcessorViewPanel(m);
+		m.frame.add(pvp.createProcessorDisplay(), BorderLayout.PAGE_START);
 		m.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		m.frame.setVisible(true); 
 

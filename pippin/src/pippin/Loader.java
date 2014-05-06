@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Loader implements LoaderInterface{ 
+public class Loader{ 
 
     public String load(MemoryInterface memory, File file) throws FileNotFoundException{ 
 		String message = "goodLoad"; 
@@ -45,8 +45,7 @@ public class Loader implements LoaderInterface{
 	// test driver 
 	public static void main(String[] args) throws FileNotFoundException, InputMismatchException { 
 		MemoryInterface m = new Memory(); 
-		LoaderInterface ld = new Loader(); 
-		//Loader ld = new Loader();
+		Loader ld = new Loader();
 		for(int i = 0; i < MemoryInterface.CODE_SIZE; i++) { 
 			try { 
 				m.setCode(i, -1); // an invalid code 

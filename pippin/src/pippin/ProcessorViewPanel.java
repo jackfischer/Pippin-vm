@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 public class ProcessorViewPanel implements Observer{
-
+	private Machine machine;
 	private JTextField accumulator;
 	private JTextField programCounter;
 	
@@ -38,7 +38,8 @@ public class ProcessorViewPanel implements Observer{
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		accumulator.setText("" + machine.getAcculumator());
+		accumulator.setText("" + machine.getAccumulator());
+		programCounter.setText("" +machine.getProgramCounter());
 	}
 
 }
