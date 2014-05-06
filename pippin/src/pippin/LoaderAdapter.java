@@ -36,11 +36,13 @@ public class LoaderAdapter {
 
 	public void finalStep() {
 		try {
-			loader.load(machine.getMemory(), currentlyExecutingFile); machine.setRunnable();
+			loader.load(machine.getMemory(), currentlyExecutingFile); 
+            //machine.setRunnable();
 			machine.setAutoStepping(false);
 			machine.setAccumulator(0);
 			machine.setProgramCounter(0);
-			machine.callForUpdates();
+			//machine.callForUpdates();
+            machine.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING);
 			} catch(IOException e) {
 				JOptionPane.showMessageDialog(machine.getFrame(), "The selected has problems.\nCannot load the program");
 			}
