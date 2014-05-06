@@ -84,6 +84,7 @@ public class ControlPanel implements Observer {
 		runButton.setBackground(Color.WHITE);
 		retVal.add(runButton);
 		runButton.addActionListener(new RunPauseListener());
+		return retVal;
 		
 		
 	}
