@@ -156,6 +156,7 @@ public class Machine extends Observable {
 
 	public void loadFile() { 
 		loader.load(); 
+		halted = false;
 		this.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING); 
 	} 
 
@@ -371,6 +372,11 @@ public class Machine extends Observable {
 	}
 
 	public static void main(String[] args) throws DataAccessException, FileNotFoundException, CodeAccessException {
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+                new Machine();
+                }
+		});
 		//test1();
 		//test2();
 		test3();
@@ -394,12 +400,9 @@ public class Machine extends Observable {
 
 	public void reload() {
 		this.clearAll();
+		halted = false;
 		loader.finalStep();
 
-	}
-	public void setRunnable() {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public void setPeriod(int period) {
