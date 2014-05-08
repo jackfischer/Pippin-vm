@@ -1,7 +1,5 @@
 package pippin;
 
-import java.util.Collections;
-
 public class ROT extends Instruction { 
  
 	public ROT(Machine machine, MemoryInterface memoryInterface) { 
@@ -11,8 +9,6 @@ public class ROT extends Instruction {
 	@Override 
 	public int execute(int arg, boolean indirect) throws DataAccessException { 
 		int retVal = getMachine().getAccumulator(); 
-		// IF YOU DID NOT CHANGE getMemory TO getMemoryInterface A COUPLE OF WEEKS AGO, JUST 
-		// USE getMemory IN THE CODE BELOW 
 		if(indirect) {
 			arg = getMachine().getMemory().getData(arg); 
 		} 
@@ -21,23 +17,55 @@ public class ROT extends Instruction {
 		int numElems = getMachine().getMemory().getData(arg+1); 
 		int numMoves = getMachine().getMemory().getData(arg+2); 
 
-		/*
-		ArrayList<Integer> list = new ArrayList<Integer>(); 
-		// throw IllegalArgumentException if numElems < 0 // with message that the number of elements to rotate cannot be negative 
-		if (numElems < 0)
-			throw new IllegalArgumentException("Number of elements to rotate cannot be negative");
-		else {
-			for(int i = 0; i < numElems; i++) { 
-				list.add(getMachine().getMemory().getData(start+i)); 
-			} 
-			Collections.rotate(list, numMoves); 
-			for(int i = 0; i < numElems; i++) { 
-				getMachine().getMemory().setData(start+i,list.get(i)); 
-			} 
-			getMachine().incrementCounter(); return retVal; 
+		if (numElems>=0 && numMoves!=0){
+			if (Math.abs(numMoves)>numElems){
+				numMoves %= numElems;
+			}
+			int temp = findAnEmptySpace();
+			for (int i = 0; i < Math.abs(numMoves); i++){
+				if (numMoves>0) {
+					getMachine().getMemory().setData(temp, getMachine().getMemory().getData(start + numElems -1));
+				}
+				else{
+					getMachine().getMemory().setData(temp, getMachine().getMemory().getData(start));
+				}
+				for (int j = 0; j < numElems; j++){					
+					if (numMoves>0){
+						getMachine().getMemory().setData(start+j+1, getMachine().getMemory().getData(start+j));
+					}
+					else{
+						getMachine().getMemory().setData(start+j, getMachine().getMemory().getData(start+j+1));
+					}
+				}
+				if (numMoves>0){
+					getMachine().getMemory().setData(start, getMachine().getMemory().getData(temp));
+				}
+				else{
+					getMachine().getMemory().setData(start+numElems-1,getMachine().getMemory().getData(temp));
+				}
+			}
+			getMachine().getMemory().setData(temp, 0);
 		}
-		*/
+		else{
+			throw new IllegalArgumentException("Number of elements to rotate cannot be negative");
+		}
+		
+		getMachine().incrementCounter();
 		return retVal;
+	}
+
+	private int findAnEmptySpace() throws DataAccessException {
+		int location = 0;
+		boolean found = false;
+		while(!found){
+			if (getMachine().getMemory().getData(location) == 0){
+				found = true;
+			}
+			else{
+				location ++;
+			}
+		}
+		return location;
 	}
 
 } 
