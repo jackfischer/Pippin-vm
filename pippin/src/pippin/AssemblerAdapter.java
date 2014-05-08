@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class AssemblerAdapter {
-    private Assembler assembler = new Assembler();
+	private Assembler assembler = new Assembler();
 	private Machine machine;
 
 	public AssemblerAdapter(Machine m){
@@ -26,7 +26,7 @@ public class AssemblerAdapter {
 		if(openOK == JFileChooser.APPROVE_OPTION) {
 			source = chooser.getSelectedFile();
 		}
-		if (source==null || !source.exists()){
+		if (source==null || !source.exists()){ //used to be &&
 			JOptionPane.showMessageDialog(machine.getFrame(), "The source file was not selected or has problems.\n" +
 					"Cannot assemble the program");
 		}

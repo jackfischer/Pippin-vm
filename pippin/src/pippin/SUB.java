@@ -28,4 +28,5 @@ public class SUB extends Instruction {
         getMachine().incrementCounter();
         return retVal;
     }
+    
 }

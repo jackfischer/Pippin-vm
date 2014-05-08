@@ -10,10 +10,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class LoaderAdapter {
 	private Machine machine;
 	private File currentlyExecutingFile;
-	private Loader loader = new Loader();
+	private Loader loader;
 	
 	public LoaderAdapter(Machine m){
-		machine = m;
+		this.machine = m;
+		loader = new Loader();
 	}
 	
 	public void load(){
@@ -30,21 +31,25 @@ public class LoaderAdapter {
 			finalStep();
 		}
 		else{
-			JOptionPane.showMessageDialog(machine.getFrame(), "No file was selected or the file does not exist.\nCannot load the program");
+			JOptionPane.showMessageDialog(machine.getFrame(), "No file was selected or the file does not exist.\n" + 
+					"Cannot load the program", 
+					"Warning", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 
 	public void finalStep() {
 		try {
 			loader.load(machine.getMemory(), currentlyExecutingFile); 
-            //machine.setRunnable();
+			// machine.setRunnable(); removed in pdf8
 			machine.setAutoStepping(false);
 			machine.setAccumulator(0);
 			machine.setProgramCounter(0);
-			//machine.callForUpdates();
-            machine.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING);
+			//machine.callForUpdates(); changed to below
+			machine.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING);
 			} catch(IOException e) {
-				JOptionPane.showMessageDialog(machine.getFrame(), "The selected has problems.\nCannot load the program");
+				JOptionPane.showMessageDialog(machine.getFrame(), "The selected has problems.\n" +
+						"Cannot load the program",
+						"Warning", JOptionPane.WARNING_MESSAGE);
 			}
 	}
 	
@@ -53,7 +58,9 @@ public class LoaderAdapter {
 			finalStep();
 		}
 		else{
-			JOptionPane.showMessageDialog(machine.getFrame(), "For some reason the currently executing file is lost.\nCannot load the program");
+			JOptionPane.showMessageDialog(machine.getFrame(), "For some reason the currently executing file is lost.\n" + 
+		 "Cannot load the program",
+		 "Warning,", JOptionPane.WARNING_MESSAGE);
 		}
 	}
 }

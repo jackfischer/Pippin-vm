@@ -5,7 +5,7 @@ package pippin;
  *
  */
 public class ANDI extends Instruction{
-    public ANDI (Machine machine, MemoryInterface memory){
+	public ANDI (Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	

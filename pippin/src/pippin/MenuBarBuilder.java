@@ -10,7 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-public class MenuBarBuilder implements Observer {
+public class MenuBarBuilder implements Observer { // needs update method still..?
 	private JMenuItem assemble = new JMenuItem("Assemble Source...");
 	private JMenuItem load = new JMenuItem("Load Program...");
 	private JMenuItem exit = new JMenuItem("Exit");
@@ -72,8 +72,8 @@ public class MenuBarBuilder implements Observer {
 		return menu;
 	}
 
-    public void checkEnabledMenus(){
-    	assemble.setEnabled(machine.getState().getAssembleFileActive());
+	public void checkEnabledMenus(){
+		assemble.setEnabled(machine.getState().getAssembleFileActive());
 		load.setEnabled(machine.getState().getAssembleFileActive());
 		go.setEnabled(machine.getState().getAssembleFileActive());
 	}
@@ -82,6 +82,8 @@ public class MenuBarBuilder implements Observer {
 	public void update(Observable arg0, Object arg1) {
 		checkEnabledMenus();
 	}
+
+	
 
 
 }

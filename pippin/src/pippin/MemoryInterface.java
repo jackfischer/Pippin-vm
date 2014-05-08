@@ -4,7 +4,7 @@ import pippin.CodeAccessException;
 import pippin.DataAccessException;
 
 public interface MemoryInterface { 
-    static final int DATA_SIZE = 512; 
+	static final int DATA_SIZE = 512; 
 	static final int CODE_SIZE = 256; 
 
 	void setData(int index, int value) throws DataAccessException; 

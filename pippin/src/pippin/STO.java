@@ -1,7 +1,7 @@
 package pippin;
 
 public class STO extends Instruction{
-    public STO(Machine machine, MemoryInterface memory){
+	public STO(Machine machine, MemoryInterface memory){
 		super(machine, memory);
 	}
 	

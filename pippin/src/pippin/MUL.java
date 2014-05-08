@@ -28,3 +28,4 @@ public class MUL extends Instruction{
         return retVal;
     }
 }
+

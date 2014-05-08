@@ -11,7 +11,7 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 public class DirectoryManager {
-    private Machine machine;
+	private Machine machine;
 	private String sourceDir; // A string for the sourceDir directory name
 	private String executableDir; // A string for the executableDir directory name
 	private String eclipseDir; // A string for the name of the default Eclipse directory

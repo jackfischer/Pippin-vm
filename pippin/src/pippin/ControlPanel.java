@@ -16,7 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class ControlPanel implements Observer {
-    
+	
 	private Machine machine;
 	private JButton stepButton = new JButton("Step");
 	private JButton clearButton = new JButton("Clear");

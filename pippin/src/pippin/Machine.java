@@ -34,7 +34,7 @@ import pippin.LoaderAdapter;
 
 
 public class Machine extends Observable {
-    class CPU {
+	class CPU {
 		private int accumulator;
 		private int programCounter;
 	}
@@ -56,7 +56,7 @@ public class Machine extends Observable {
 		memory = new Memory();
 		iSet = new Instruction[32];
 		setGUIMemory();
-		//createAndShowGUI();
+		createAndShowGUI();
 		callForUpdates(States.NOTHING_LOADED);
 	}
 	public int getAccumulator() {
@@ -402,10 +402,10 @@ public class Machine extends Observable {
 		test1();
 		//test2();
 		//test3();
-		javax.swing.SwingUtilities.invokeLater(new Runnable(){
+		/*javax.swing.SwingUtilities.invokeLater(new Runnable(){
 			public void run() {
 				new Machine();
 			}
-		});
+		});*/ 
 	}
 }

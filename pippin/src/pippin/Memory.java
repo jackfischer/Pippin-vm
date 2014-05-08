@@ -41,7 +41,7 @@ public class Memory implements MemoryInterface{
     }
     
     long[] getCode(){
-        return code;
+    	return code;
     }
 
     public void clearCode() {
