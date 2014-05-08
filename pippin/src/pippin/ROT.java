@@ -37,6 +37,7 @@ public class ROT extends Instruction {
 			getMachine().incrementCounter(); return retVal; 
 		}
 		*/
+		return retVal;
 	}
 
 } 

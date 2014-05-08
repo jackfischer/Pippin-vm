@@ -26,7 +26,7 @@ public class AssemblerAdapter {
 		if(openOK == JFileChooser.APPROVE_OPTION) {
 			source = chooser.getSelectedFile();
 		}
-		if (source==null || !source.exists()){ //used to be &&
+		if (source==null || !source.exists()){
 			JOptionPane.showMessageDialog(machine.getFrame(), "The source file was not selected or has problems.\n" +
 					"Cannot assemble the program");
 		}
