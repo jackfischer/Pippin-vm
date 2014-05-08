@@ -20,6 +20,7 @@ public class ProcessorViewPanel implements Observer{
 	private JTextField programCounter;
 	
 	public ProcessorViewPanel(Machine machine) {
+		this.machine = machine;
 		machine.addObserver(this);
 	}
 	

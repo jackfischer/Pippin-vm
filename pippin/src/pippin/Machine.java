@@ -56,7 +56,7 @@ public class Machine extends Observable {
 		memory = new Memory();
 		iSet = new Instruction[32];
 		setGUIMemory();
-		createAndShowGUI();
+		//createAndShowGUI();
 		callForUpdates(States.NOTHING_LOADED);
 	}
 	public int getAccumulator() {
@@ -399,7 +399,7 @@ public class Machine extends Observable {
 	}
 
 	public static void main(String[] args) throws DataAccessException, FileNotFoundException, CodeAccessException {
-		//test1();
+		test1();
 		//test2();
 		//test3();
 		javax.swing.SwingUtilities.invokeLater(new Runnable(){
