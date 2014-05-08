@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Loader{ 
 
     public String load(MemoryInterface memory, File file) throws FileNotFoundException{ 
-		String message = "goodLoad"; 
+    	String message = "goodLoad"; 
 		Scanner input = new Scanner(file);
 		boolean inCode = true; 
 		try { 
