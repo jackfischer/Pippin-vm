@@ -24,6 +24,7 @@ public class Assembler{
 		allowsIndirect.add("SUB");
 		allowsIndirect.add("MUL");
 		allowsIndirect.add("DIV");
+		allowsIndirect.add("ROT");
 
 		// [DONE] complete with all the other instructions that allow indirect addressing 
 
@@ -53,6 +54,7 @@ public class Assembler{
 		opcode.put("JUMP", 0x1A);
 		opcode.put("JMPZ", 0x1B);
 		opcode.put("HALT", 0x1F);
+		opcode.put("ROT", 0x1C);
 
 		// [DONE] complete with all the other instructions and their opcodes 
 	} 
