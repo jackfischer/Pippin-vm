@@ -246,6 +246,7 @@ public class Machine extends Observable {
 		iSet[0x1A] = new JUMP(this, memory); 
 		iSet[0x1B] = new JMPZ(this, memory); 
 		iSet[0x1F] = new HALT(this, memory); 
+		iSet[0x1C] = new ROT(this, memory);
 	}
 
 
