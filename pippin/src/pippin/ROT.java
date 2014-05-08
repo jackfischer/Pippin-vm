@@ -10,14 +10,14 @@ public class ROT extends Instruction {
 	public int execute(int arg, boolean indirect) throws DataAccessException { 
 		int retVal = getMachine().getAccumulator(); 
 		if(indirect) {
-			arg = getMachine().getMemory().getData(arg); 
-		} 
+			arg = getMachine().getMemory().getData(arg);
+		}
 
 		int start = getMachine().getMemory().getData(arg); 
 		int numElems = getMachine().getMemory().getData(arg+1); 
 		int numMoves = getMachine().getMemory().getData(arg+2); 
 
-		if (numElems>=0 && numMoves!=0){
+		if (numElems>1 && numMoves!=0){
 			if (Math.abs(numMoves)>numElems){
 				numMoves %= numElems;
 			}
@@ -25,22 +25,17 @@ public class ROT extends Instruction {
 			for (int i = 0; i < Math.abs(numMoves); i++){
 				if (numMoves>0) {
 					getMachine().getMemory().setData(temp, getMachine().getMemory().getData(start + numElems -1));
-				}
-				else{
-					getMachine().getMemory().setData(temp, getMachine().getMemory().getData(start));
-				}
-				for (int j = 0; j < numElems; j++){					
-					if (numMoves>0){
-						getMachine().getMemory().setData(start+j+1, getMachine().getMemory().getData(start+j));
+					for (int j = 0; j < numElems; j++){
+						getMachine().getMemory().setData((start+numElems-1)-j, getMachine().getMemory().getData((start+numElems)-j-1));
+
 					}
-					else{
-						getMachine().getMemory().setData(start+j, getMachine().getMemory().getData(start+j+1));
-					}
-				}
-				if (numMoves>0){
 					getMachine().getMemory().setData(start, getMachine().getMemory().getData(temp));
 				}
 				else{
+					getMachine().getMemory().setData(temp, getMachine().getMemory().getData(start));
+					for (int j = 0; j < numElems; j++){
+						getMachine().getMemory().setData(start+j, getMachine().getMemory().getData(start+j+1));
+					}
 					getMachine().getMemory().setData(start+numElems-1,getMachine().getMemory().getData(temp));
 				}
 			}
