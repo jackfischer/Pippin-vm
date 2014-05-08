@@ -34,7 +34,7 @@ import pippin.LoaderAdapter;
 
 
 public class Machine extends Observable {
-	class CPU {
+    class CPU {
 		private int accumulator;
 		private int programCounter;
 	}
@@ -107,6 +107,7 @@ public class Machine extends Observable {
 	}
 	public void halt(){
 		halted = true;
+		callForUpdates(States.PROGRAM_HALTED);
 		state = States.PROGRAM_HALTED;
 	}
 
@@ -156,16 +157,41 @@ public class Machine extends Observable {
 
 	public void loadFile() { 
 		loader.load(); 
-		halted = false;
 		this.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING); 
 	} 
 
 	public void execute() { 
 		this.setAutoStepping(false); 
 		while(!halted) { 
-			step(); 
+			step1(); 
 		} 
 		this.callForUpdates(States.PROGRAM_HALTED); 
+	}
+	
+	// HERE ARE METHODS REQUIRED BY OTHER CLASSES THAT HAVE NOT YET BEEN COMPLETED
+	
+	public JFrame getFrame() {
+		return frame;
+		//That's a guess -jack
+	}
+
+	public void clearAll() {
+		setAutoStepping(false);
+		memory.clearCode();
+		memory.clearData();
+		cpu.accumulator = 0;
+		cpu.programCounter = 0;
+		callForUpdates(States.NOTHING_LOADED);
+	}
+
+	public void reload() {
+		this.clearAll();
+		halted = false;
+		loader.finalStep();
+	}
+	
+	public void setPeriod(int period) {
+		timer.setDelay(period);
 	}
 
 
@@ -372,41 +398,13 @@ public class Machine extends Observable {
 	}
 
 	public static void main(String[] args) throws DataAccessException, FileNotFoundException, CodeAccessException {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-                new Machine();
-                }
-		});
 		//test1();
 		//test2();
-		test3();
+		//test3();
+		javax.swing.SwingUtilities.invokeLater(new Runnable(){
+			public void run() {
+				new Machine();
+			}
+		});
 	}
-
-
-	// HERE ARE METHODS REQUIRED BY OTHER CLASSES THAT HAVE NOT YET BEEN COMPLETED
-	
-	public JFrame getFrame() {
-		return frame;
-		//That's a guess -jack
-	}
-
-	public void clearAll() {
-		memory.clearCode();
-		memory.clearData();
-		cpu.accumulator = 0;
-		cpu.programCounter = 0;
-
-	}
-
-	public void reload() {
-		this.clearAll();
-		halted = false;
-		loader.finalStep();
-
-	}
-	
-	public void setPeriod(int period) {
-		timer.setDelay(period);
-	}
-
 }
