@@ -11,14 +11,14 @@ import java.util.Properties;
 import javax.swing.JOptionPane;
 
 public class DirectoryManager {
-	private Machine machine;
-	private String pasm; // A string for the pasm directory name
-	private String pexe; // A string for the pexe directory name
-	private String edir; // A string for the name of the default Eclipse directory
+    private Machine machine;
+	private String sourceDir; // A string for the sourceDir directory name
+	private String executableDir; // A string for the executableDir directory name
+	private String eclipseDir; // A string for the name of the default Eclipse directory
 	private Properties properties;
 
 	public DirectoryManager(Machine m){
-		machine = m;
+		this.machine = m;
 		File temp = new File("propertyfile.txt");
 		String eclipseFile = "";
 		if(!temp.exists()) {
@@ -39,34 +39,66 @@ public class DirectoryManager {
 		else {
 			//if the file exists it must have been in the default directory 
 			eclipseFile = temp.getAbsolutePath();
-			edir = extractDir(eclipseFile);
-			// System.out.println(eclipseDir);--for debugging
-			try {
-				// load properties file "propertyfile.txt", if it exists 
-				properties = new Properties();
-				File inFile = new File("propertyfile.txt");
-				if(inFile.exists()) {
-					FileInputStream in = new FileInputStream(inFile);
-					properties.load(in);
-					pasm = properties.getProperty("SourceDirectory");
-					pexe = properties.getProperty("ExecutableDirectory"); in.close();
-				}
-				// CLEAN UP ANY ERRORS IN WHAT IS STORED:
-				if (pasm == null || pasm.isEmpty() || !new File(pasm).exists()){
-					pasm = edir;
-				}
-				if (pexe == null || pexe.isEmpty() || !new File(pexe).exists()){
-					pexe = edir;
-				}
+		}
+		eclipseDir = extractDir(eclipseFile);
+		// System.out.println(eclipseDir);--for debugging
+		try {
+			// load properties file "propertyfile.txt", if it exists 
+			properties = new Properties();
+			File inFile = new File("propertyfile.txt");
+			if(inFile.exists()) {
+				FileInputStream in = new FileInputStream(inFile);
+				properties.load(in);
+				sourceDir = properties.getProperty("SourceDirectory");
+				executableDir = properties.getProperty("ExecutableDirectory"); 
+				in.close();
 			}
-			catch (Exception e){
-				// PROPERTIES FILE DID NOT EXIST
-				pasm = edir;
-				pexe = edir;
+			// CLEAN UP ANY ERRORS IN WHAT IS STORED:
+			if (sourceDir == null || sourceDir.length() == 0 
+					|| !new File(sourceDir).exists()){
+				sourceDir = eclipseDir;
 			}
+			if (executableDir == null || executableDir.length() == 0 
+					|| !new File(executableDir).exists()){
+				executableDir = eclipseDir;
+			}
+		}
+		catch (Exception e){
+			// PROPERTIES FILE DID NOT EXIST
+			sourceDir = eclipseDir;
+			executableDir = eclipseDir;
 		}
 	}
 
+	public String getSourceDir() {
+		return sourceDir;
+	}
+
+	public String getExecutableDir() {
+		return executableDir;
+	}
+
+	public String getEclipseDir() {
+		return eclipseDir;
+	}
+
+	private String extractDir(String fileName){
+		fileName = fileName.replace('\\', '/');
+		int lastSlash = fileName.lastIndexOf('/');
+		//fileName = fileName.substring(0,i+1);
+		return fileName.substring(0, lastSlash + 1);
+	}
+
+	public void recordSourceDir(String sourceFile) {
+		this.sourceDir = extractDir(sourceFile);
+		properties.setProperty("SourceDirectory", sourceDir);
+	}
+
+	public void recordExecutableDir(String executableFile) {
+		this.executableDir = extractDir(executableFile);
+		properties.setProperty("ExecutableDirectory", executableDir);
+	}	
+	
 	public void closePropertiesFile() {
 		try {
 			FileOutputStream out = new FileOutputStream("propertyfile.txt");
@@ -75,36 +107,9 @@ public class DirectoryManager {
 		}
 		catch (Exception e){
 			JOptionPane.showMessageDialog(machine.getFrame(),
-					"Problems when storing Source Directory in Property File", "Warning",
+					"Problems when storing Source Directory in Property File", 
+					"Warning",
 					JOptionPane.WARNING_MESSAGE);
 		}
 	}
-	public String getSourceDir() {
-		return pasm;
-	}
-
-	public String getExecutableDir() {
-		return pexe;
-	}
-
-	public String getEclipseDir() {
-		return edir;
-	}
-
-	private String extractDir(String fileName){
-		fileName.replace('\\', '/');
-		int i = fileName.lastIndexOf('/');
-		fileName = fileName.substring(0,i+1);
-		return fileName;
-	}
-
-	public void recordSourceDir(String sourceFile) {
-		pasm = extractDir(sourceFile);
-		properties.setProperty("SourceDirectory", pasm);
-	}
-
-	public void recordExecutableDir(String executableFile) {
-		pexe = extractDir(executableFile);
-		properties.setProperty("ExecutableDirectory", pexe);
-	}	
 }
