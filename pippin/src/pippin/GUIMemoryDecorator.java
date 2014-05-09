@@ -61,13 +61,14 @@ public void recolorCode() {
     if(currentCodeHighlight >= 0 && currentCodeHighlight < codeComponents.length) {
         codeComponents[currentCodeHighlight].setColor(Color.WHITE);
         currentCodeHighlight = machine.getProgramCounter();
+    if(currentCodeHighlight >= 0 && currentCodeHighlight < codeComponents.length) {
         if(machine.getState() != States.NOTHING_LOADED) {
             codeComponents[currentCodeHighlight].setColor(HIGHLIGHT_COLOR);
         } else {
             dataComponents[currentCodeHighlight].setColor(Color.WHITE);
         }
         codeHighlight = codeComponents[currentCodeHighlight].rowIndex.getBounds();
-    }
+    }}
 }
 
 public void clearCode() {
