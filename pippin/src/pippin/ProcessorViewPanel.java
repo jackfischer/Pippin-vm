@@ -1,18 +1,13 @@
 package pippin;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
 
 public class ProcessorViewPanel implements Observer{
 	private Machine machine;

@@ -10,7 +10,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Observable;
 
 import javax.swing.JFrame;
@@ -26,8 +25,6 @@ import pippin.Instruction;
 import pippin.CodeViewPanel;
 import pippin.DataViewPanel;
 import pippin.States;
-import pippin.Machine.ExitAdapter;
-import pippin.Machine.TimerListener;
 import pippin.AssemblerAdapter;
 import pippin.DirectoryManager;
 import pippin.LoaderAdapter;
