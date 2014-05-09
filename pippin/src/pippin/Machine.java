@@ -154,6 +154,7 @@ public class Machine extends Observable {
 
 	public void loadFile() { 
 		loader.load(); 
+        halted = false
 		this.callForUpdates(States.PROGRAM_LOADED_NOT_AUTOSTEPPING); 
 	} 
 
@@ -182,7 +183,7 @@ public class Machine extends Observable {
 	}
 
 	public void reload() {
-		this.clearAll();
+		clearAll();
 		halted = false;
 		loader.finalStep();
 	}
