@@ -15,6 +15,6 @@ public class LODI extends Instruction{
 	@Override
 	public int execute(int arg, boolean indirect) throws DataAccessException{
 		getMachine().incrementCounter();
-		return getMachine().getAccumulator();
+		return arg;
 	}
 }
