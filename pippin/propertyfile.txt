@@ -1,2 +1,4 @@
 #File locations
-#Thu May 08 19:12:41 EDT 2014
+#Thu May 08 19:22:29 EDT 2014
+ExecutableDirectory=/Users/jack/Dropbox/Workspace/pippin/pippin/pippin/
+SourceDirectory=/Users/jack/Dropbox/Workspace/pippin/pippin/pippin/

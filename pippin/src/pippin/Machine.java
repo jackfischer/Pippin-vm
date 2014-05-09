@@ -399,13 +399,13 @@ public class Machine extends Observable {
 	}
 
 	public static void main(String[] args) throws DataAccessException, FileNotFoundException, CodeAccessException {
-		test1();
+		//test1();
 		//test2();
 		//test3();
-		/*javax.swing.SwingUtilities.invokeLater(new Runnable(){
+		javax.swing.SwingUtilities.invokeLater(new Runnable(){
 			public void run() {
 				new Machine();
 			}
-		});*/ 
+		}); 
 	}
 }
